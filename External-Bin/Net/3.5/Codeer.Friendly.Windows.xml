@@ -1,0 +1,1410 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Codeer.Friendly.Windows</name>
+    </assembly>
+    <members>
+        <member name="T:Codeer.Friendly.Windows.WindowsAppExpander">
+            <summary>
+            テスト対象アプリケーションをテスト用に拡張します。
+            具体的には、ネイティブDllのロードとアセンブリのロードができます。
+            アセンブリはこのクラスでロードした場合、対象アプリケーションの検索パスに置かなくとも参照解決されます。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppExpander.LoadLibrary(Codeer.Friendly.Windows.WindowsAppFriend,System.String)">
+            <summary>
+            テスト対象アプリケーションにネイティブdllをロードさせます。
+            </summary>
+            <param name="app">アプリケーション操作クラス。</param>
+            <param name="fileName">ファイル名称。WindowsApiのLoadLibraryと同様のルールで使用できます。</param>
+            <returns>成否。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppExpander.LoadAssemblyFromFile(Codeer.Friendly.Windows.WindowsAppFriend,System.String)">
+            <summary>
+            テスト対象アプリケーションにアセンブリをロードさせます。
+            </summary>
+            <param name="app">アプリケーション操作クラス。</param>
+            <param name="filePath">ファイルパス。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppExpander.LoadAssemblyFromFullName(Codeer.Friendly.Windows.WindowsAppFriend,System.String)">
+            <summary>
+            テスト対象アプリケーションにアセンブリをロードさせます。
+            </summary>
+            <param name="app">アプリケーション操作クラス。</param>
+            <param name="assemblyString">長い形式のアセンブリ名。</param>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore">
+            <summary>
+            Friendly処理の接続。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore.#ctor(System.IntPtr,System.IntPtr,Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveAfterSend)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="friendlyConnectorWindowInAppHandleAsync">非同期通信用App側Friendly通信接続ウィンドウ。</param>
+            <param name="friendlyConnectorWindowInAppHandle">App側Friendly通信接続ウィンドウ。</param>
+            <param name="receiveWindow">受信ウィンドウ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore.SendAndReceive(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            実行。
+            </summary>
+            <param name="info">呼び出し情報。</param>
+            <returns>戻り値。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore.AsyncState(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            非同期状態に関する通。
+            非同期結果バッファの初期化と、完了の問い合わせ。
+            対象アプリケーション内でコントロールスレッドで実行される。
+            </summary>
+            <param name="info">呼び出し情報。</param>
+            <returns>戻り値。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore.AsyncOperation(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            非同期操作実行通信。
+            非同期実行のトリガをコントロールスレッドでかけて、実行は対象スレッドに任せる。
+            </summary>
+            <param name="info">呼び出し情報。</param>
+            <returns>戻り値。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore.Operation(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            同期実行。
+            しかし、Windowsの場合、操作実行は非同期で実行しないと、稀にに操作中にSendMessageが失敗してしまう操作がある。
+            そのため、非同期操作のプロトコルを使って、実行させ、終了するのを待つ。
+            </summary>
+            <param name="info">呼び出し情報。</param>
+            <returns>戻り値。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore.BinOff(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            BinOffはGCのスレッドからコールされるので、SendMessageのみで通信する（受信しない）
+            </summary>
+            <param name="info">呼び出し情報。</param>
+            <returns>戻り値。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorCore.SendForExecuteContext(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            実行スレッドに送信。
+            </summary>
+            <param name="info">呼び出し情報。</param>
+            <returns>戻り値。</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.SystemStarter">
+            <summary>
+            システム起動。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.Start(System.Diagnostics.Process,System.String)">
+            <summary>
+            起動。
+            </summary>
+            <param name="process">対象プロセス。</param>
+            <param name="clrVersion">CLRバージョン名称。</param>
+            <returns>システムコントローラー。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.LoadDll(System.Diagnostics.Process,System.String)">
+            <summary>
+            CodeerFriendlyWindows.dllを対象プロセスに読み込ませる。
+            </summary>
+            <param name="process">対象プロセス。</param>
+            <param name="dllName">dll名称。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.StartInApp(System.Diagnostics.Process,System.String)">
+            <summary>
+            プロセスでシステムを起動させる。
+            </summary>
+            <param name="process">対象プロセス。</param>
+            <param name="dllName">サーバー側で動作させるDLL名称。</param>
+            <returns>システムコントローラー。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.AdjustClrVersionName(System.String)">
+            <summary>
+            CLRバージョン名称を調整。
+            </summary>
+            <param name="clrVersion">CLRバージョン。</param>
+            <returns>CLRバージョン名称。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.GetCodeerFriendlyWindows(System.String)">
+            <summary>
+            CodeerFriendlyWindows.dllの名前。
+            </summary>
+            <param name="clrVersion">CLRバージョン。</param>
+            <returns>CodeerFriendlyWindows.dllの名前。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.GetTargetProcAddress(System.Diagnostics.Process,System.String,System.String)">
+            <summary>
+            対象プロセスのDLL関数アドレスの取得
+            </summary>
+            <param name="process">対象プロセス</param>
+            <param name="dllName">DLL名称</param>
+            <param name="procName">関数名称</param>
+            <returns>アドレス</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.CalcProcAddressLong(System.IntPtr,System.IntPtr,System.IntPtr)">
+            <summary>
+            対象プロセスのDLL関数アドレスを計算
+            </summary>
+            <param name="mod">自プロセスのモジュールハンドル</param>
+            <param name="proc">自プロセスの関数アドレス</param>
+            <param name="targetModBase">対象プロセスのDLLベースアドレス</param>
+            <returns>対象プロセスのDLL関数アドレス</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.CalcProcAddressInt(System.IntPtr,System.IntPtr,System.IntPtr)">
+            <summary>
+            対象プロセスのDLL関数アドレスを計算
+            </summary>
+            <param name="mod">自プロセスのモジュールハンドル</param>
+            <param name="proc">自プロセスの関数アドレス</param>
+            <param name="targetModBase">対象プロセスのDLLベースアドレス</param>
+            <returns>対象プロセスのDLL関数アドレス</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.GetModuleBase(System.Diagnostics.Process,System.String)">
+            <summary>
+            指定プロセスのDLLベースアドレスを取得
+            </summary>
+            <param name="process">プロセス</param>
+            <param name="dllName">DLL名称</param>
+            <returns>指定プロセスのDLLベースアドレス</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.SystemStarter.SystemControlWindowInAppHandleRecieveWindow">
+            <summary>
+            システムコントロールウィンドウハンドル受信。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.CommunicationWindow">
+            <summary>
+            通信を引導
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.CreateHandle">
+            <summary>
+            ハンドル生成
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.BeginInvoke(System.Delegate)">
+            <summary>
+            非同期実行
+            </summary>
+            <param name="method">実行メソッド</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.Invoke(System.Delegate)">
+            <summary>
+            同期実行
+            </summary>
+            <param name="method">実行メソッド</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.Finalize">
+            <summary>
+            ファイナライザ
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.Dispose">
+            <summary>
+            破棄
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.Dispose(System.Boolean)">
+            <summary>
+            破棄
+            </summary>
+            <param name="disposing">破棄フラグ</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.CallWndProc(System.Windows.Forms.Message@)">
+            <summary>
+            ウィンドウプロック
+            </summary>
+            <param name="m">メッセージ</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindow.WndProc(System.Windows.Forms.Message@)">
+            <summary>
+            ウィンドウプロック
+            </summary>
+            <param name="m">メッセージ</param>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.CommunicationWindow.Handle">
+            <summary>
+            ハンドル
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.SystemControlWindowInAppHandleRecieveWindow.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarter.SystemControlWindowInAppHandleRecieveWindow.WndProc(System.Windows.Forms.Message@)">
+            <summary>
+            ウィンドウプロック。
+            </summary>
+            <param name="m">メッセージ。</param>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.SystemStarter.SystemControlWindowInAppHandleRecieveWindow.SystemControlWindowHandle">
+            <summary>
+            システムコントロールウィンドウハンドル。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm">
+            <summary>
+            データ受信ウィンドウ共通処理。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm.SendCopyDataSuccess">
+            <summary>
+            WM_COPYDATA送信成功。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm.#ctor">
+            <summary>
+            コンストラクタ。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm.WndProc(System.Windows.Forms.Message@)">
+            <summary>
+            メッセージ処理。
+            </summary>
+            <param name="message">メッセージ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm.ProcessCopyData(System.Windows.Forms.Message@,Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolInfo@)">
+            <summary>
+            WM_COPYDATAの処理。
+            </summary>
+            <param name="message">メッセージ。</param>
+            <param name="data">受信データ。</param>
+            <returns>true→処理した。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm.SendReturnData(System.Int32,System.IntPtr,System.Object)">
+            <summary>
+            応答送信。
+            </summary>
+            <param name="communicationNo">通信番号。</param>
+            <param name="receiveWindowHandle">応答受信ウィンドウ。</param>
+            <param name="data">送信データ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm.OnRecieveData(System.Int32,System.Object,System.IntPtr)">
+            <summary>
+            データ受信時の処理。
+            </summary>
+            <param name="communicationNo">通信番号。</param>
+            <param name="recieveData">受信データ。</param>
+            <param name="senderWindow">送信元ウィンドウ。</param>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveForm.CanUseThread">
+            <summary>
+            使用可能なスレッドであるか
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.SystemController">
+            <summary>
+            システム制御。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemController.#ctor(System.IntPtr)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="systemControlWindowInAppHandle">システムコントロールウィンドウハンドル。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemController.StartFriendlyConnector(System.IntPtr,Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveAfterSend)">
+            <summary>
+            FriendlyConnector開始。
+            </summary>
+            <param name="executeThreadWindowHandle">実行対象スレッドに属するウィンドウハンドル。</param>
+            <param name="receive">受信ウィンドウ。</param>
+            <returns>FriendlyConnector。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemController.EndFriendlyConnector(System.IntPtr)">
+            <summary>
+            FriendlyConnector終了。
+            </summary>
+            <param name="friendlyConnectorWindowInApp">アプリケーション内部のFriendlyConnectorWindowのハンドル。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemController.EndSystem">
+            <summary>
+            システム終了。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.CommunicationWindowManager">
+            <summary>
+            通信ウィンドウ管理
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindowManager.#cctor">
+            <summary>
+            staticコンストラクタ
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindowManager.WndProc(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            ウィンドウプロック
+            </summary>
+            <param name="hwnd">ウィンドウハンドル</param>
+            <param name="msg">メッセージ</param>
+            <param name="wParam">WParam</param>
+            <param name="lParam">LParam</param>
+            <returns>結果</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindowManager.Create(Codeer.Friendly.Windows.Inside.CommunicationWindow)">
+            <summary>
+            生成
+            </summary>
+            <param name="window">ウィンドウ</param>
+            <returns>生成結果</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CommunicationWindowManager.DestroyWindow(System.IntPtr)">
+            <summary>
+            ウィンドウの破棄
+            </summary>
+            <param name="handle">ハンドル</param>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.ProtocolMessageManager">
+            <summary>
+            プロトコルメッセージマネージャ
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.ProtocolMessageManager.Initialize">
+            <summary>
+            初期化
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.ProtocolMessageManager.ChangeWindowMessageFilterFlags">
+            <summary>
+            メッセージフィルタ識別子
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.ProtocolMessageManager.ChangeWindowMessageFilterFlags.Add">
+            <summary>
+            追加
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.ProtocolMessageManager.ChangeWindowMessageFilterFlags.Remove">
+            <summary>
+            削除
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.ProtocolMessageManager.ChangeWindowMessageFilter">
+            <summary>
+            メッセージフィルタ型
+            </summary>
+            <param name="msg">メッセージ</param>
+            <param name="flags">フラグ</param>
+            <returns>成否</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp">
+            <summary>
+            アプリケーション側フレンドリー操作ウィンドウ。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.WM_BINOFF">
+            <summary>
+            BinOff高速通信用。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.SuccessBinOff">
+            <summary>
+            BinOff成功戻り値。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.#ctor(Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInAppManager,Codeer.Friendly.DotNetExecutor.DotNetFriendlyControl)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="manager">ウィンドウ管理</param>
+            <param name="dotNetFriendlyControl">.Net側処理呼び出しクラス。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.RequestDispose">
+            <summary>
+            終了要求。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.Execute(Codeer.Friendly.DotNetExecutor.AsyncMethod)">
+            <summary>
+            非同期実行。
+            </summary>
+            <param name="method">非同期メソッド。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.OnRecieveData(System.Int32,System.Object,System.IntPtr)">
+            <summary>
+            データ受信時の処理。
+            </summary>
+            <param name="communicationNo">通信番号。</param>
+            <param name="recieveData">受信データ。</param>
+            <param name="senderWindow">送信元ウィンドウ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.WndProc(System.Windows.Forms.Message@)">
+            <summary>
+            メッセージ処理。
+            </summary>
+            <param name="message">メッセージ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp.DisposeCore">
+            <summary>
+            破棄
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInAppManager">
+            <summary>
+            Friendly接続ウィンドウ管理。
+            スレッドセーフである。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInAppManager.Add(System.IntPtr,Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInApp)">
+            <summary>
+            追加。
+            ウィンドウの所属するスレッドと実行スレッドが違う可能性があるので、ウィンドウからハンドルを取得しない。
+            </summary>
+            <param name="handle">ハンドル。</param>
+            <param name="window">ウィンドウ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInAppManager.Clone">
+            <summary>
+            クローンの作成。
+            </summary>
+            <returns>クローン。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInAppManager.FromHandle(System.IntPtr)">
+            <summary>
+            ハンドルから検索。
+            </summary>
+            <param name="handle">ハンドル</param>
+            <returns>Friendly接続ウィンドウ</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.FriendlyConnectorWindowInAppManager.Remove(System.IntPtr)">
+            <summary>
+            削除
+            </summary>
+            <param name="handle">ハンドル。</param>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Properties.Resources">
+            <summary>
+              ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ResourceManager">
+            <summary>
+              このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.Culture">
+            <summary>
+              厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+              現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorAppCommunication">
+             <summary>
+               アプリケーションとの通信に失敗しました。
+            対象アプリケーションが通信不能な状態になったか、
+            シリアライズ不可能な型のデータを転送しようとした可能性があります。 に類似しているローカライズされた文字列を検索します。
+             </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorAppConnection">
+            <summary>
+              アプリケーションとの接続に失敗しました。 に類似しているローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorCLR">
+             <summary>
+               指定のプロセスとの接続に失敗しました。
+            CLRのバージョンの指定が不正な可能性があります。
+            CLRのバージョンは.NetFrameworkのバージョンと異なる場合があるのでご注意願います。
+            サポートされているバージョンはCodeerのWebサイトを参照お願いします。 に類似しているローカライズされた文字列を検索します。
+             </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorDllLoad">
+             <summary>
+               指定のプロセスとの接続に失敗しました。
+            インストールに失敗している可能性があります。 に類似しているローカライズされた文字列を検索します。
+             </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorExecuteThreadWindowHandle">
+             <summary>
+               アプリケーションとの通信に失敗しました。
+            指定の実行対象スレッドに含まれるウィンドウは存在しません。
+            もしくは既に破棄されました。
+            スプラッシュウィンドウを表示するアプリケーションの場合は、起動直後にメインウィンドウがスプラッシュウィンドウになっている場合があります。
+            明示的に期待のウィンドウのハンドルを指定してください。 に類似しているローカライズされた文字列を検索します。
+             </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorInvalidThreadCall">
+             <summary>
+               予期せぬスレッドからの呼び出しがありました。
+            起点となるWindowsAppFriendを生成したスレッドからのみ、呼び出し可能です。
+            必要であれば、スレッドごとにWindowsAppFriendを生成してください。 に類似しているローカライズされた文字列を検索します。
+             </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorProcessAcess">
+            <summary>
+              対象プロセスの操作に失敗しました。対象プロセスを操作する権限が足りていないか、接続中に終了した可能性があります。 に類似しているローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.ErrorTargetCpuDifference">
+            <summary>
+              プラットフォームターゲットがテスト対象とテストプロセスで異なります。合わせてください。 に類似しているローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Properties.Resources.OutOfCommunicationNo">
+            <summary>
+              同時通信数の上限に達しました。 に類似しているローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolTalker">
+            <summary>
+            Windowメッセージ通信。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolTalker.SendAndRecieve(System.IntPtr,System.Object)">
+            <summary>
+            送受信。
+            </summary>
+            <param name="targetWindowHandle">送信対象ウィンドウハンドル。</param>
+            <param name="data">送信データ。</param>
+            <returns>受信データ。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolTalker.SendAndRecieve(System.IntPtr,System.Object,Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveAfterSend)">
+            <summary>
+            送受信。
+            </summary>
+            <param name="targetWindowHandle">送信対象ウィンドウハンドル。</param>
+            <param name="data">送信データ。</param>
+            <param name="recieveWindow">受信ウィンドウ。</param>
+            <returns>受信データ。</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolInfo">
+            <summary>
+            通信データ。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolInfo.#ctor(System.IntPtr,System.Object)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="returnWindowHandle">返信ウィンドウ。</param>
+            <param name="data">データ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolInfo.Serialize">
+            <summary>
+            シリアライズ。
+            </summary>
+            <returns>バイナリ。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolInfo.Deserialize(System.Byte[])">
+            <summary>
+            デシリアライズ。
+            </summary>
+            <param name="bin">バイナリ。</param>
+            <returns>データ。</returns>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolInfo.ReturnWindowHandle">
+            <summary>
+            返信ウィンドウハンドル。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.CopyDataProtocol.CopyDataProtocolInfo.Data">
+            <summary>
+            データ。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.SystemControlType">
+            <summary>
+            システムコントロールタイプ。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.SystemControlType.StartFriendlyConnectorWindowInApp">
+            <summary>
+            Friendly通信App側ウィンドウ開始。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.SystemControlType.EndFriendlyConnectorWindowInApp">
+            <summary>
+            Friendly通信App側ウィンドウ終了。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.SystemControlType.EndSystem">
+            <summary>
+            システム終了。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.SystemControlInfo">
+            <summary>
+            システムコントロール情報。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemControlInfo.#ctor(Codeer.Friendly.Windows.Inside.SystemControlType,System.Object)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="systemControlType">コントロールタイプ。</param>
+            <param name="data">データ。</param>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.SystemControlInfo.SystemControlType">
+            <summary>
+            コントロールタイプ。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.SystemControlInfo.Data">
+            <summary>
+            データ。
+            コントロールタイプによって異なる。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.CpuTargetCheckUtility">
+            <summary>
+            CPU対象チェック
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CpuTargetCheckUtility.IsSameCpu(System.Diagnostics.Process)">
+            <summary>
+            同一のCPUをターゲットとしているか
+            </summary>
+            <param name="process">プロセス</param>
+            <returns>テスト対象となりえるか</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CpuTargetCheckUtility.IsWow64(System.Diagnostics.Process)">
+            <summary>
+            Wow64上で動作しているか
+            </summary>
+            <param name="process">プロセス</param>
+            <returns>Wow64上で動作しているか</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.ExecuteContext">
+            <summary>
+            実行コンテキスト。
+            テスト対象アプリケーションでの処理実行スレッドを変更するのに使用します。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.ExecuteContext.#ctor(Codeer.Friendly.Windows.WindowsAppFriend,System.IntPtr)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="app">アプリケーション操作クラス。</param>
+            <param name="executeThreadWindowHandle">処理を実行させるスレッドで動作するウィンドウのハンドルです。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.ExecuteContext.#ctor(Codeer.Friendly.Windows.WindowsAppFriend,Codeer.Friendly.AppVar)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="app">アプリケーション操作クラス。</param>
+            <param name="executeThreadWindowControl">処理を実行させるスレッドで動作するウィンドウの.Netオブジェクトの入ったアプリケーション内変数です。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.ExecuteContext.#ctor(Codeer.Friendly.Windows.Inside.FriendlyConnectorCore)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="friendlyConnector">接続者。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.ExecuteContext.Finalize">
+            <summary>
+            ファイナライザ。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.ExecuteContext.Dispose">
+            <summary>
+            破棄します。
+            このメソッドが呼び出されると、このコンテキストを使用して処理を実行させることができなくなります。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.ExecuteContext.Dispose(System.Boolean)">
+            <summary>
+            破棄。
+            </summary>
+            <param name="disposing">破棄フラグ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.ExecuteContext.GetHandleThreadSafe(System.Windows.Forms.Control)">
+            <summary>
+            ハンドルの取得
+            App内部から使用される
+            </summary>
+            <param name="control">取得対象コントロール</param>
+            <returns>ハンドル</returns>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.ExecuteContext.FriendlyConnector">
+            <summary>
+            接続者。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveAfterSend">
+            <summary>
+            送信後の返信受信。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveAfterSend.OnRecieveData(System.Int32,System.Object,System.IntPtr)">
+            <summary>
+            データ受信時の処理。
+            </summary>
+            <param name="communicationNo">通信番号。</param>
+            <param name="recieveData">受信データ。</param>
+            <param name="senderWindow">送信元ウィンドウ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveAfterSend.GetReceiveData(System.Int32,System.Object@)">
+            <summary>
+            受信データ取得。
+            </summary>
+            <param name="communicationNo">通信番号。</param>
+            <param name="receieveData">受信データ。</param>
+            <returns>成否。</returns>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.CopyDataProtocol.ReceiveAfterSend.UniqueNoManager">
+            <summary>
+            通信番号管理用。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.SystemControlWindowInApp">
+            <summary>
+            アプリケーション側システムコントロールウィンドウ。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemControlWindowInApp.OnRecieveData(System.Int32,System.Object,System.IntPtr)">
+            <summary>
+            データ受信時の処理。
+            </summary>
+            <param name="communicationNo">通信番号。</param>
+            <param name="recieveData">受信データ。</param>
+            <param name="senderWindow">送信元ウィンドウ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemControlWindowInApp.StartFriendlyConnectorWindowInApp(Codeer.Friendly.Windows.Inside.SystemControlInfo)">
+            <summary>
+            フレンドリー操作ウィンドウ開始。
+            </summary>
+            <param name="controlInfo">コントロール情報。</param>
+            <returns>FriendlyConnectorWindowInAppのハンドル。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemControlWindowInApp.EndFriendlyConnectorWindowInApp(Codeer.Friendly.Windows.Inside.SystemControlInfo)">
+            <summary>
+            フレンドリー操作ウィンドウ終了。
+            </summary>
+            <param name="controlInfo">コントロール情報。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemControlWindowInApp.EndSystem">
+            <summary>
+            システム終了
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemControlWindowInApp.Dispose(System.Boolean)">
+            <summary>
+            破棄
+            </summary>
+            <param name="disposing">Disposeメソッドから呼び出されたか</param>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.SystemStarterInApp">
+            <summary>
+            Windowsアプリケーション操作開始クラス。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.SystemStarterInApp.WM_NOTIFY_SYSTEM_CONTROL_WINDOW_HANDLE">
+            <summary>
+            ウィンドウハンドル通知メッセージ。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.SystemStarterInApp.Start(System.String)">
+            <summary>
+            開始。
+            </summary>
+            <param name="startInfo">開始情報。</param>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.ContextOrderProtocolInfo">
+            <summary>
+            実行コンテキスト指定プロトコル情報
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.ContextOrderProtocolInfo.#ctor(Codeer.Friendly.Inside.Protocol.ProtocolInfo,System.IntPtr)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="protocolInfo">プロトコル情報</param>
+            <param name="executeWindowHandle">実行ウィンドウハンドル</param>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.ContextOrderProtocolInfo.ProtocolInfo">
+            <summary>
+            プロトコル情報
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.ContextOrderProtocolInfo.ExecuteWindowHandle">
+            <summary>
+            実行ウィンドウ
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods">
+            <summary>
+            WindowsApi。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.NativeMethods.WM_QUIT">
+            <summary>
+            終了メッセージ。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.NativeMethods.WM_COPYDATA">
+            <summary>
+            データコピー。
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.NativeMethods.WM_TIMER">
+            <summary>
+            タイマー
+            </summary>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.NativeMethods.INFINITE">
+            <summary>
+            WaitForSingleObject無限待ち時間。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.SendMessage(System.IntPtr,System.Int32,System.IntPtr,Codeer.Friendly.Windows.Inside.NativeMethods.COPYDATASTRUCT@)">
+            <summary>
+            メッセージ送信。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="msg">メッセージ。</param>
+            <param name="wParam">wParam。</param>
+            <param name="lParam">lParam。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.SendMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            メッセージ送信。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="msg">メッセージ。</param>
+            <param name="wParam">wParam。</param>
+            <param name="lParam">lParam。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.PostMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            メッセージ送信。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="msg">メッセージ。</param>
+            <param name="wParam">wParam。</param>
+            <param name="lParam">lParam。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetWindowThreadProcessId(System.IntPtr,System.Int32@)">
+            <summary>
+            指定のウィンドウハンドルの所属するスレッドとプロセスの取得。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="lpdwProcessId">プロセスID。</param>
+            <returns>スレッドID。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.PeekMessage(Codeer.Friendly.Windows.Inside.NativeMethods.MSG@,System.IntPtr,System.UInt32,System.UInt32,Codeer.Friendly.Windows.Inside.NativeMethods.PeekMsgOption)">
+            <summary>
+            メッセージ取得。
+            </summary>
+            <param name="lpMsg">メッセージ。</param>
+            <param name="hwnd">ウィンドウハンドル。</param>
+            <param name="wMsgFilterMin">フィルタ。</param>
+            <param name="wMsgFilterMax">フィルタ。</param>
+            <param name="wRemoveMsg">メッセージ取得オプション。</param>
+            <returns>成否。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetMessage(Codeer.Friendly.Windows.Inside.NativeMethods.MSG@,System.IntPtr,System.UInt32,System.UInt32)">
+            <summary>
+            メッセージ取得。
+            </summary>
+            <param name="msg">メッセージ。</param>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="wMsgFilterMin">フィルタ最小値。</param>
+            <param name="wMsgFilterMax">フィルタ最大値。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.TranslateMessage(Codeer.Friendly.Windows.Inside.NativeMethods.MSG@)">
+            <summary>
+            メッセージ変換。
+            </summary>
+            <param name="msg">メッセージ。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.DispatchMessage(Codeer.Friendly.Windows.Inside.NativeMethods.MSG@)">
+            <summary>
+            メッセージディスパッチ。
+            </summary>
+            <param name="msg">メッセージ。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.VirtualAllocEx(System.IntPtr,System.IntPtr,System.IntPtr,Codeer.Friendly.Windows.Inside.NativeMethods.AllocationType,Codeer.Friendly.Windows.Inside.NativeMethods.MemoryProtection)">
+            <summary>
+            指定されたプロセスの仮想アドレス空間内のメモリ領域の予約とコミットの一方または両方を行います。
+            この関数は AllocationType.Rest フラグがセットされていない限り、確保されるメモリが自動的に 0 で初期化されます。
+            </summary>
+            <param name="hProcess">割り当てたいメモリを保持するプロセス。</param>
+            <param name="lpAddress">割り当てたい開始アドレス。</param>
+            <param name="dwSize">割り当てたい領域のバイト単位のサイズ。</param>
+            <param name="flAllocationType">割り当てのタイプ。</param>
+            <param name="flProtect">アクセス保護のタイプ。</param>
+            <returns>確保されたアドレス。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.VirtualFreeEx(System.IntPtr,System.IntPtr,System.IntPtr,Codeer.Friendly.Windows.Inside.NativeMethods.FreeType)">
+            <summary>
+            指定されたプロセスの仮想アドレス空間内のメモリ領域を解放またはコミット解除します。
+            </summary>
+            <param name="hProcess">解放したいメモリを保持するプロセス。</param>
+            <param name="lpAddress">解放したいメモリ領域の開始アドレス。</param>
+            <param name="dwSize">解放したいメモリ領域のバイト単位のサイズ。</param>
+            <param name="dwFreeType">解放操作のタイプ。</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.WriteProcessMemory(System.IntPtr,System.IntPtr,System.Byte[],System.IntPtr,System.IntPtr)">
+            <summary>
+            指定されたプロセスのメモリ領域にデータを書き込みます。
+            書き込みたい領域全体がアクセス可能でなければなりません。さもないと、関数は失敗します。
+            </summary>
+            <param name="hProcess">プロセスのハンドル。</param>
+            <param name="lpBaseAddress">書き込み開始アドレス。</param>
+            <param name="lpBuffer">データバッファ。</param>
+            <param name="nSize">書き込みたいバイト数。</param>
+            <param name="lpNumberOfBytesWritten">実際に書き込まれたバイト数。</param>
+            <returns>成否。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.IsWindow(System.IntPtr)">
+            <summary>
+            指定のウィンドウハンドルが存在するか。
+            </summary>
+            <param name="hWnd">ハンドル。</param>
+            <returns>存在するか。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.LoadLibrary(System.String)">
+            <summary>
+            DLLロード。
+            </summary>
+            <param name="lpFileName">ファイル名称。</param>
+            <returns>DLLハンドル。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetProcAddress(System.IntPtr,System.String)">
+            <summary>
+            ダイナミックリンクライブラリ（DLL）が持つ、指定されたエクスポート済み関数のアドレスを取得します。
+            </summary>
+            <param name="hModule">DLL モジュールのハンドル。</param>
+            <param name="procName">関数名。</param>
+            <returns></returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.CreateRemoteThread(System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr,System.Int32,System.IntPtr@)">
+            <summary>
+            別のプロセスのアドレス空間で稼働するスレッドを作成します。
+            </summary>
+            <param name="hProcess">新しいスレッドを稼働させるプロセスを識別するハンドル。</param>
+            <param name="lpThreadAttributes">スレッドのセキュリティ属性へのポインタ。</param>
+            <param name="dwStackSize"> 初期のスタックサイズ (バイト数)。</param>
+            <param name="lpStartAddress">スレッド関数へのポインタ。</param>
+            <param name="lpParameter">新しいスレッドの引数へのポインタ。</param>
+            <param name="dwCreationFlags">作成フラグ。</param>
+            <param name="lpThreadId">取得したスレッド識別子へのポインタ。</param>
+            <returns>スレッドハンドル。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetModuleHandle(System.String)">
+            <summary>
+            モジュールハンドルの取得。
+            </summary>
+            <param name="lpModuleName">モジュール名称。</param>
+            <returns>ハンドル</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.WaitForSingleObject(System.IntPtr,System.UInt32)">
+            <summary>
+            シグナル待ち。
+            </summary>
+            <param name="hHandle">ハンドル。</param>
+            <param name="dwMilliseconds">待ち時間。</param>
+            <returns>制御を返した原因。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.CloseHandle(System.IntPtr)">
+            <summary>
+            ハンドルクローズ。
+            </summary>
+            <param name="hObject">オブジェクトハンドル。</param>
+            <returns>成否。</returns>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.NativeMethods.GWL_WNDPROC">
+            <summary>
+            ウィンドウプロシージャへのポインタ、またはウィンドウプロシージャへのポインタを表すハンドルへのアクセス。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetWindowLongPtr(System.IntPtr,System.Int32)">
+            <summary>
+            指定されたウィンドウに関する情報を取得。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="nIndex">操作種別。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetWindowLongPtr64(System.IntPtr,System.Int32)">
+            <summary>
+            指定されたウィンドウに関する情報を取得。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="nIndex">操作種別。</param>
+            <returns>結果</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetWindowLongPtr32(System.IntPtr,System.Int32)">
+            <summary>
+            指定されたウィンドウに関する情報を取得。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="nIndex">操作種別。</param>
+            <returns>結果</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.SetWindowLongPtr(System.IntPtr,System.Int32,System.IntPtr)">
+            <summary>
+            指定されたウィンドウに関する情報を設定。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="nIndex">操作種別。</param>
+            <param name="dwNewLong">情報。</param>
+            <returns>設定前の情報。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.SetWindowLong32(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            指定されたウィンドウに関する情報を設定。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="nIndex">操作種別。</param>
+            <param name="dwNewLong">情報。</param>
+            <returns>設定前の情報。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.SetWindowLongPtr64(System.IntPtr,System.Int32,System.IntPtr)">
+            <summary>
+            指定されたウィンドウに関する情報を設定。
+            </summary>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="nIndex">操作種別。</param>
+            <param name="dwNewLong">情報。</param>
+            <returns>設定前の情報。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.CallWindowProc(System.IntPtr,System.IntPtr,System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            指定されたウィンドウプロシージャに、メッセージ情報を渡す。
+            </summary>
+            <param name="lpPrevWndFunc">ウィンドウプロシージャ。</param>
+            <param name="hWnd">ウィンドウハンドル。</param>
+            <param name="msg">メッセージ。</param>
+            <param name="wParam">wParam。</param>
+            <param name="lParam">lParam。</param>
+            <returns>結果。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.IsWow64Process(System.IntPtr,System.Boolean@)">
+            <summary>
+            Wow64上で動作するプロセスであるか調べる
+            </summary>
+            <param name="hProcess">プロセスハンドル</param>
+            <param name="isWow64">Wow64上で動作するプロセスであるか情報</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.EnumProcessModules(System.IntPtr,System.IntPtr[],System.UInt32,System.UInt32@)">
+            <summary>
+            プロセス内のロードされているモジュールを全取得
+            </summary>
+            <param name="hProcess">プロセスハンドル</param>
+            <param name="modules">モジュール</param>
+            <param name="arrayCount">配列数</param>
+            <param name="trueCount">本当のモジュール数</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.GetModuleFileNameEx(System.IntPtr,System.IntPtr,System.Text.StringBuilder,System.Int32)">
+            <summary>
+            モジュール名称取得
+            </summary>
+            <param name="hProcess">プロセスハンドル</param>
+            <param name="hModule">モジュールハンドル</param>
+            <param name="lpBaseName">モジュール名称</param>
+            <param name="nSize">名称格納バッファ</param>
+            <returns>モジュール名称バッファサイズ</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.DefWindowProc(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr)">
+            <summary>
+            デフォルトウィンドウハンドラ
+            </summary>
+            <param name="hWnd">ウィンドウハンドル</param>
+            <param name="msg">メッセージ</param>
+            <param name="wParam">WParam</param>
+            <param name="lParam">LParam</param>
+            <returns>結果</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.RegisterClassEx(Codeer.Friendly.Windows.Inside.NativeMethods.WNDCLASSEX@)">
+            <summary>
+            ウィンドウクラス登録
+            </summary>
+            <param name="lpwcx">ウィンドウクラス情報</param>
+            <returns>ウィンドウ識別子</returns>
+        </member>
+        <member name="F:Codeer.Friendly.Windows.Inside.NativeMethods.HWND_MESSAGE">
+            <summary>
+            メッセージ用ウィンドウにする場合の識別子
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.CreateWindowEx(System.UInt32,System.String,System.String,System.UInt32,System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)">
+            <summary>
+            ウィンドウ生成
+            </summary>
+            <param name="dwExStyle">拡張スタイル</param>
+            <param name="lpClassName">ウィンドウクラス名称</param>
+            <param name="lpWindowName">ウィンドウタイトル</param>
+            <param name="dwStyle">スタイル</param>
+            <param name="x">x座標</param>
+            <param name="y">y座標</param>
+            <param name="nWidth">幅</param>
+            <param name="nHeight">高さ</param>
+            <param name="hWndParent">親</param>
+            <param name="hMenu">メニュー</param>
+            <param name="hInstance">インスタンス</param>
+            <param name="lpParam">パラメータ</param>
+            <returns>ウィンドウハンドル</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.DestroyWindow(System.IntPtr)">
+            <summary>
+            ウィンドウ破棄
+            </summary>
+            <param name="hWnd">ウィンドウハンドル</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.SetTimer(System.IntPtr,System.IntPtr,System.UInt32,System.IntPtr)">
+            <summary>
+            タイマー設定
+            </summary>
+            <param name="hWnd">ウィンドウハンドル</param>
+            <param name="nIDEvent">ID</param>
+            <param name="uElapse">感覚</param>
+            <param name="lpTimerFunc">タイマー関数</param>
+            <returns>ID</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.NativeMethods.KillTimer(System.IntPtr,System.IntPtr)">
+            <summary>
+            タイマー削除
+            </summary>
+            <param name="hWnd">ウィンドウハンドル</param>
+            <param name="uIDEvent">イベントID</param>
+            <returns>成否</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.COPYDATASTRUCT">
+            <summary>
+            コピーデータ構造体。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.MSG">
+            <summary>
+            メッセージ構造体。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.POINTAPI">
+            <summary>
+            位置情報。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.AllocationType">
+            <summary>
+            割り当てのタイプ。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.MemoryProtection">
+            <summary>
+            アクセス保護のタイプ。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.FreeType">
+            <summary>
+            解放操作のタイプ
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.ProcessAccessFlags">
+            <summary>
+            アクセスフラグ。
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.WndProc">
+            <summary>
+            メッセージ処理関数用デリゲート。
+            </summary>
+            <param name="hwnd">ウィンドウハンドル。</param>
+            <param name="msg">メッセージ。</param>
+            <param name="wParam">wParam。</param>
+            <param name="lParam">lParam。</param>
+            <returns>実行結果。</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.WNDCLASSEX">
+            <summary>
+            ウィンドウ登録構造体
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.NativeMethods.WindowProc">
+            <summary>
+            ウィンドウハンドラの型
+            </summary>
+            <param name="hWnd">ウィンドウハンドル</param>
+            <param name="msg">メッセージ</param>
+            <param name="wParam">WParam</param>
+            <param name="lParam">LParam</param>
+            <returns>結果</returns>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.WindowsAppExpanderInApp">
+            <summary>
+            Windowsアプリケーション拡張。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.WindowsAppExpanderInApp.LoadLibrary(System.String)">
+            <summary>
+            DLLのロード。
+            </summary>
+            <param name="fileName">ファイル名称。</param>
+            <returns>モジュールハンドル。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.WindowsAppExpanderInApp.LoadFile(System.String)">
+            <summary>
+            ファイルからアセンブリ読み込み。
+            </summary>
+            <param name="filePath">ファイルパス。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.WindowsAppExpanderInApp.Load(System.String)">
+            <summary>
+            アセンブリ名称からアセンブリ読み込み。
+            </summary>
+            <param name="assemblyString">長い形式のアセンブリ名。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.WindowsAppExpanderInApp.EntryAssembly(System.Reflection.Assembly)">
+            <summary>
+            アセンブリ登録。
+            </summary>
+            <param name="asm">アセンブリ。</param>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.Inside.Debug">
+            <summary>
+            デバッグ用クラス
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.Debug.Trace(System.String)">
+            <summary>
+            トレース
+            </summary>
+            <param name="msg">メッセージ</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.Inside.Debug.ReadDebugMark(System.String)">
+            <summary>
+            バッグモードか否かを読み取る
+            </summary>
+            <param name="info">情報文字列</param>
+            <returns>情報コア</returns>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.Inside.Debug.DebugMark">
+            <summary>
+            デバッグモードマーク
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.WindowsAppFriend">
+            <summary>
+            Windowsアプリケーションを操作するためのクラスです。
+            AppFriendを継承しています。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.#ctor(System.Diagnostics.Process,System.String)">
+            <summary>
+            コンストラクタです。
+            指定のプロセスに接続します。
+            この指定の場合、接続時のメインウィンドウのスレッドで処理が実行されます。
+            </summary>
+            <param name="process">接続対象プロセス。</param>
+            <param name="clrVersion">CLRのバージョン "2.0", "4.0" のように入力してください。詳細はCodeerのWebサイトを参照してください。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.#ctor(System.IntPtr,System.String)">
+            <summary>
+            コンストラクタです。
+            指定のウィンドウハンドルのプロセスに接続します。
+            また、指定のウィンドウハンドルのスレッドで処理が実行されます。
+            </summary>
+            <param name="executeContextWindowHandle">接続対象プロセスの処理実行スレッドのウィンドウハンドル。</param>
+            <param name="clrVersion">CLRのバージョン "2.0", "4.0" のように入力してください。詳細はCodeerのWebサイトを参照してください。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.Finalize">
+            <summary>
+            ファイナライザ。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.Dispose">
+            <summary>
+            破棄します。
+            このメソッドが呼び出されるとアプリケーションとの通信が切断され、管理していた変数が解放されます。
+            ただし、管理領域から解放されるだけで、メモリの解放はガベージコレクションに委ねられます。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.Dispose(System.Boolean)">
+            <summary>
+            破棄。
+            </summary>
+            <param name="disposing">破棄フラグ。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.ChangeContext(Codeer.Friendly.Windows.ExecuteContext)">
+            <summary>
+            対象アプリケーションでの実行スレッドを変更します。
+            </summary>
+            <param name="context">実行コンテキスト。</param>
+            <returns>変更前の実行コンテキスト。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.AddAppControlInfo(System.String,System.Object)">
+            <summary>
+            アプリケーション制御情報追加。
+            通常利用しません。
+            主にライブラリを拡張する際に利用します。
+            </summary>
+            <param name="key">キー。</param>
+            <param name="value">値。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.TryGetAppControlInfo(System.String,System.Object@)">
+            <summary>
+            アプリケーション制御情報取得。
+            通常利用しません。
+            主にライブラリを拡張する際に利用します。
+            </summary>
+            <param name="key">キー。</param>
+            <param name="value">値。</param>
+            <returns>取得に成功したか。</returns>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.SendAndReceive(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            送受信
+            </summary>
+            <param name="info">通信情報</param>
+            <returns>戻り値</returns>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.WindowsAppFriend.FriendlyConnector">
+            <summary>
+            接続者。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.WindowsAppFriend.ProcessId">
+            <summary>
+            操作対象アプリケーションのプロセスIDを取得できます。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.WindowsAppFriend.SystemController">
+            <summary>
+            システムコントローラー。
+            </summary>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.WindowsAppFriend.ReceiveWindow">
+            <summary>
+            受信ウィンドウ
+            </summary>
+        </member>
+        <member name="T:Codeer.Friendly.Windows.WindowsAppFriend.FriendlyConnectorWrap">
+            <summary>
+            接続者。
+            </summary>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.FriendlyConnectorWrap.#ctor(Codeer.Friendly.Windows.WindowsAppFriend)">
+            <summary>
+            コンストラクタ。
+            </summary>
+            <param name="app">アプリケーション操作クラス。</param>
+        </member>
+        <member name="M:Codeer.Friendly.Windows.WindowsAppFriend.FriendlyConnectorWrap.SendAndReceive(Codeer.Friendly.Inside.Protocol.ProtocolInfo)">
+            <summary>
+            送受信。
+            </summary>
+            <param name="info">通信情報。</param>
+            <returns>戻り値。</returns>
+        </member>
+        <member name="P:Codeer.Friendly.Windows.WindowsAppFriend.FriendlyConnectorWrap.Identity">
+            <summary>
+            接続者を区別するためのユニークなオブジェクト。
+            </summary>
+        </member>
+    </members>
+</doc>

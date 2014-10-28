@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SkeletonCodeerFriendly", "SkeletonCodeerFriendly\SkeletonCodeerFriendly.vbproj", "{300C4336-E878-467F-8DBF-BC9553F4F147}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SkeletonCodeerFriendlyTest", "SkeletonCodeerFriendlyTest\SkeletonCodeerFriendlyTest.vbproj", "{AA7D2C1D-4603-46C4-B8C0-4B97B167F53C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{300C4336-E878-467F-8DBF-BC9553F4F147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300C4336-E878-467F-8DBF-BC9553F4F147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300C4336-E878-467F-8DBF-BC9553F4F147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300C4336-E878-467F-8DBF-BC9553F4F147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA7D2C1D-4603-46C4-B8C0-4B97B167F53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA7D2C1D-4603-46C4-B8C0-4B97B167F53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA7D2C1D-4603-46C4-B8C0-4B97B167F53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA7D2C1D-4603-46C4-B8C0-4B97B167F53C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
