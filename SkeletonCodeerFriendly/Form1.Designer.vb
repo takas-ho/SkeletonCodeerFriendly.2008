@@ -23,8 +23,8 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.TextBox1 = New System.Windows.Forms.TextBox
+        Me.TextBox2 = New System.Windows.Forms.TextBox
         Me.TextBox3 = New System.Windows.Forms.TextBox
-        Me.TextBox4 = New System.Windows.Forms.TextBox
         Me.Button1 = New System.Windows.Forms.Button
         Me.Button2 = New System.Windows.Forms.Button
         Me.SuspendLayout()
@@ -36,20 +36,20 @@ Partial Class Form1
         Me.TextBox1.Size = New System.Drawing.Size(92, 19)
         Me.TextBox1.TabIndex = 0
         '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(16, 47)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(92, 19)
+        Me.TextBox2.TabIndex = 1
+        '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(16, 47)
+        Me.TextBox3.Location = New System.Drawing.Point(16, 98)
         Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.ReadOnly = True
         Me.TextBox3.Size = New System.Drawing.Size(92, 19)
-        Me.TextBox3.TabIndex = 1
-        '
-        'TextBox4
-        '
-        Me.TextBox4.Location = New System.Drawing.Point(16, 98)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.ReadOnly = True
-        Me.TextBox4.Size = New System.Drawing.Size(92, 19)
-        Me.TextBox4.TabIndex = 2
+        Me.TextBox3.TabIndex = 2
         '
         'Button1
         '
@@ -76,8 +76,8 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(284, 123)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.TextBox4)
         Me.Controls.Add(Me.TextBox3)
+        Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
         Me.Name = "Form1"
         Me.Text = "Form1"
@@ -86,8 +86,8 @@ Partial Class Form1
 
     End Sub
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
 
