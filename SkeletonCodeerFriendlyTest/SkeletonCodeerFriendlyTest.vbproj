@@ -36,21 +36,29 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Codeer.Friendly, Version=1.7.0.0, Culture=neutral, PublicKeyToken=6c44da6fca38aa86, processorArchitecture=MSIL">
+    <Reference Include="Codeer.Friendly, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6c44da6fca38aa86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External-Bin\Net\3.5\Codeer.Friendly.dll</HintPath>
+      <HintPath>..\External-Bin\Codeer.Friendly\lib\net20\Codeer.Friendly.dll</HintPath>
     </Reference>
-    <Reference Include="Codeer.Friendly.Windows, Version=1.7.0.0, Culture=neutral, PublicKeyToken=532f270f1da385b3, processorArchitecture=MSIL">
+    <Reference Include="Codeer.Friendly.resources, Version=2.4.0.0, Culture=ja, PublicKeyToken=6c44da6fca38aa86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External-Bin\Net\3.5\Codeer.Friendly.Windows.dll</HintPath>
+      <HintPath>..\External-Bin\Codeer.Friendly\lib\net20\ja\Codeer.Friendly.resources.dll</HintPath>
     </Reference>
-    <Reference Include="Codeer.Friendly.Windows.Grasp, Version=1.7.0.0, Culture=neutral, PublicKeyToken=92809a28945fb91d, processorArchitecture=MSIL">
+    <Reference Include="Codeer.Friendly.Windows, Version=2.4.3.0, Culture=neutral, PublicKeyToken=532f270f1da385b3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External-Bin\Net\3.5\Codeer.Friendly.Windows.Grasp.dll</HintPath>
+      <HintPath>..\External-Bin\Codeer.Friendly.Windows\lib\net20\Codeer.Friendly.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="Codeer.Friendly.Windows.NativeStandardControls, Version=1.7.0.0, Culture=neutral, PublicKeyToken=90759bf0c8b8639e, processorArchitecture=MSIL">
+    <Reference Include="Codeer.Friendly.Windows.Grasp, Version=2.4.2.0, Culture=neutral, PublicKeyToken=92809a28945fb91d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External-Bin\Net\3.5\Codeer.Friendly.Windows.NativeStandardControls.dll</HintPath>
+      <HintPath>..\External-Bin\Codeer.Friendly.Windows.Grasp\lib\net20\Codeer.Friendly.Windows.Grasp.dll</HintPath>
+    </Reference>
+    <Reference Include="Codeer.Friendly.Windows.Grasp.resources, Version=2.4.2.0, Culture=ja, PublicKeyToken=92809a28945fb91d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Codeer.Friendly.Windows.Grasp\lib\net20\ja\Codeer.Friendly.Windows.Grasp.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Codeer.Friendly.Windows.resources, Version=2.4.3.0, Culture=ja, PublicKeyToken=532f270f1da385b3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Codeer.Friendly.Windows\lib\net20\ja\Codeer.Friendly.Windows.resources.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,9 +68,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\External-Bin\Net\2.0\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Ong.Friendly.FormsStandardControls, Version=1.7.0.0, Culture=neutral, PublicKeyToken=ee7fcdb5644bd140, processorArchitecture=MSIL">
+    <Reference Include="Ong.Friendly.FormsStandardControls, Version=2.2.2.0, Culture=neutral, PublicKeyToken=ee7fcdb5644bd140, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External-Bin\Net\3.5\Ong.Friendly.FormsStandardControls.dll</HintPath>
+      <HintPath>..\External-Bin\Ong.Friendly.FormsStandardControls\lib\net20\Ong.Friendly.FormsStandardControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Ong.Friendly.FormsStandardControls.resources, Version=2.2.2.0, Culture=ja, PublicKeyToken=ee7fcdb5644bd140, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Ong.Friendly.FormsStandardControls\lib\net20\ja\Ong.Friendly.FormsStandardControls.resources.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
