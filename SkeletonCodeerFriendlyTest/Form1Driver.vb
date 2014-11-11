@@ -13,6 +13,7 @@ Public Class Form1Driver : Implements IDisposable
 #Else
         Dim targetPath As String = "..\..\..\SkeletonCodeerFriendly\bin\Release\SkeletonCodeerFriendly.exe"
 #End If
+        Console.WriteLine(Path.GetFullPath(targetPath))
         Return New Form1Driver(Path.GetFullPath(targetPath))
     End Function
 
