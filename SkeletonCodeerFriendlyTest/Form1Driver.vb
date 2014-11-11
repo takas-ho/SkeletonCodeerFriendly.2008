@@ -17,7 +17,7 @@ Public Class Form1Driver : Implements IDisposable
 
     Private Sub New(ByVal path As String)
         Dim aProcess As Process = Process.Start(path)
-        App = New WindowsAppFriend(aProcess, "2.0")
+        App = New WindowsAppFriend(aProcess)
         MainForm = WindowControl.FromZTop(App)
         'mainForm = app("System.Windows.Forms.Control.FromHandle")(Process.GetProcessById(aProcess.Id).MainWindowHandle)
         WindowsAppExpander.LoadAssemblyFromFile(App, Me.GetType.Assembly.Location)

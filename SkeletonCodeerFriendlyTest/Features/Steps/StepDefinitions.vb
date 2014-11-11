@@ -1,5 +1,4 @@
-﻿Imports Codeer.Friendly
-Imports Codeer.Friendly.Windows.Grasp
+﻿Imports Codeer.Friendly.Windows.Grasp
 Imports NUnit.Framework
 Imports Ong.Friendly.FormsStandardControls
 Imports TechTalk.SpecFlow
@@ -36,7 +35,7 @@ Namespace Features.Steps
 
         <TechTalk.SpecFlow.When("TextBox ""(.+)"" に ""(.+)"" を入力する")> _
         Public Sub WhenTextBoxにvalueを入力する(ByVal name As String, ByVal value As String)
-            Dim textbox As New FormsTextBox(driver.App, driver.MainForm(name)())
+            Dim textbox As New FormsTextBox(driver.MainForm(name)())
             textbox.EmulateChangeText(value)
         End Sub
 
@@ -51,7 +50,7 @@ Namespace Features.Steps
 
         <TechTalk.SpecFlow.Then("TextBox ""(.+)"" は ""(.+)"" になる")> _
         Public Sub ThenTextBoxはvalueになる(ByVal name As String, ByVal expectedValue As String)
-            Dim textbox As New FormsTextBox(driver.App, driver.MainForm(name)())
+            Dim textbox As New FormsTextBox(driver.MainForm(name)())
             Assert.That(textbox.Text, [Is].EqualTo(expectedValue))
         End Sub
 
