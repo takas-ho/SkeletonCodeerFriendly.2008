@@ -54,5 +54,20 @@ Namespace Features.Steps
             Assert.That(textbox.Text, [Is].EqualTo(expectedValue))
         End Sub
 
+        <TechTalk.SpecFlow.When("以下を入力する")> _
+       Public Sub When以下を入力する(ByVal aTable As Table)
+            For Each aTableRow As TableRow In aTable.Rows
+                Dim aType As String = aTableRow("Type")
+                Dim name As String = aTableRow("Name")
+                Dim value As String = aTableRow("Value")
+                If "TextBox".Equals(aType, StringComparison.OrdinalIgnoreCase) Then
+                    Dim textbox As New FormsTextBox(driver.MainForm(name)())
+                    textbox.EmulateChangeText(value)
+                Else
+                    Throw New NotImplementedException(String.Format("'{0}'は未対応", aType))
+                End If
+            Next
+        End Sub
+
     End Class
 End Namespace

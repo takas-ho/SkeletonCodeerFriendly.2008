@@ -78,6 +78,31 @@ Me.ScenarioSetup(scenarioInfo)
 #End ExternalSource
             Me.ScenarioCleanup
         End Sub
+        
+        <NUnit.Framework.TestAttribute(),  _
+         NUnit.Framework.DescriptionAttribute("引き算（ディビジョンテーブルで）")>  _
+        Public Overridable Sub 引き算ディビジョンテーブルで()
+            Dim scenarioInfo As TechTalk.SpecFlow.ScenarioInfo = New TechTalk.SpecFlow.ScenarioInfo("引き算（ディビジョンテーブルで）", CType(Nothing,String()))
+#ExternalSource("FeatureForm1.feature",10)
+Me.ScenarioSetup(scenarioInfo)
+#End ExternalSource
+#ExternalSource("FeatureForm1.feature",11)
+ testRunner.Given("起動する")
+#End ExternalSource
+            Dim table1 As TechTalk.SpecFlow.Table = New TechTalk.SpecFlow.Table(New String() {"Type", "Name", "Value"})
+            table1.AddRow(New String() {"TextBox", "TextBox1", "56"})
+            table1.AddRow(New String() {"TextBox", "TextBox2", "78"})
+#ExternalSource("FeatureForm1.feature",12)
+ testRunner.When("以下を入力する", CType(Nothing,String), table1)
+#End ExternalSource
+#ExternalSource("FeatureForm1.feature",16)
+  testRunner.And("Button ""-"" を押す")
+#End ExternalSource
+#ExternalSource("FeatureForm1.feature",17)
+ testRunner.Then("TextBox ""TextBox3"" は ""-22"" になる")
+#End ExternalSource
+            Me.ScenarioCleanup
+        End Sub
     End Class
 End Namespace
 #End Region
