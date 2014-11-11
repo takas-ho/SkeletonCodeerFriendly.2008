@@ -1,5 +1,6 @@
 ﻿Imports Codeer.Friendly.Windows
 Imports Codeer.Friendly.Windows.Grasp
+Imports System.IO
 
 Public Class Form1Driver : Implements IDisposable
 
@@ -8,11 +9,11 @@ Public Class Form1Driver : Implements IDisposable
 
     Public Shared Function Start() As Form1Driver
 #If DEBUG Then
-        Dim path As String = "..\..\..\SkeletonCodeerFriendly\bin\Debug\SkeletonCodeerFriendly.exe"
+        Dim targetPath As String = "..\..\..\SkeletonCodeerFriendly\bin\Debug\SkeletonCodeerFriendly.exe"
 #Else
-        Dim path As String = "..\..\..\SkeletonCodeerFriendly\bin\Release\SkeletonCodeerFriendly.exe"
+        Dim targetPath As String = "..\..\..\SkeletonCodeerFriendly\bin\Release\SkeletonCodeerFriendly.exe"
 #End If
-        Return New Form1Driver(path)
+        Return New Form1Driver(Path.GetFullPath(targetPath))
     End Function
 
     Private Sub New(ByVal path As String)
